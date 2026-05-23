@@ -1,8 +1,8 @@
 title: Layered Agent Architecture
 name: Layered Agent Architecture
 description: A whitepaper on composable, governed AI workers and trust-centered orchestration.
-url: https://klair-work.github.io
-baseurl: /LAA
+url: https://whitepaper.klair.work
+baseurl: ""
 
 plugins:
   - jekyll-feed
