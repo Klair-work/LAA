@@ -367,7 +367,9 @@ See Section 7 - *Level 0 Worker Contract* for the full specification and adoptio
 
 ## 4. Memory Contract
 
-### The detection problem with fixed thresholds to trigger pattern detection: 3+ occurrences of the same signal. This was a placeholder, not a principle. It treated all signals as equivalent regardless of who produced them, in what context, and against what expectation.
+### The Detection Problem
+
+The fixed threshold for triggering pattern detection - 3+ occurrences of the same signal - was a placeholder, not a principle. It treated all signals as equivalent regardless of who produced them, in what context, and against what expectation.
 
 Consider two users. A professional cook and an amateur cook can both repeat the same gesture three times. The repetitions are not equivalent. The professional is confirming a schema they already have - their signal is dense, context-varied, stable. The amateur is building a schema from scratch - their signal is repetitive, context-narrow, fragile. Fixed occurrence counting cannot distinguish them.
 
