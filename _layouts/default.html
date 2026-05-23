@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  {% seo title=false %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/screen.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <style>
+    .laa-brand {
+      align-items: center;
+      color: #111;
+      display: inline-flex;
+      font-family: Righteous, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1.35rem;
+      gap: .5rem;
+      letter-spacing: 0;
+    }
+
+    .laa-brand-icon {
+      border-radius: 6px;
+      display: block;
+      height: 26px;
+      width: 26px;
+    }
+
+    .laa-mainheading {
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 1rem;
+    }
+
+    .laa-whitepaper {
+      max-width: 860px;
+      margin: 0 auto 4rem;
+    }
+
+    .laa-authors {
+      align-items: center;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.25rem;
+      margin: 0 0 2rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .laa-author {
+      align-items: center;
+      color: #333;
+      display: inline-flex;
+      font-size: .98rem;
+      font-weight: 500;
+      gap: .65rem;
+    }
+
+    .laa-author img {
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
+      display: block;
+      height: 29px;
+      object-fit: cover;
+      width: 29px;
+    }
+
+    .laa-whitepaper .article-post {
+      font-size: 1.08rem;
+    }
+
+    .laa-whitepaper table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    .laa-whitepaper th,
+    .laa-whitepaper td {
+      padding: .55rem .75rem;
+      border: 1px solid #e5e5e5;
+    }
+
+    .laa-whitepaper pre {
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 4px;
+      background: #f7f7f7;
+    }
+
+    .laa-whitepaper blockquote {
+      border-left: 4px solid #00ab6b;
+      padding-left: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body class="layout-{{ page.layout }}">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+    <div class="container pr-0">
+      <a class="navbar-brand laa-brand" href="{{ '/' | relative_url }}">
+        <img class="laa-brand-icon" src="{{ '/assets/images/klair-logo.svg' | relative_url }}" alt="" aria-hidden="true">
+        <span>Klair</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLaa" aria-controls="navbarLaa" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarLaa">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ '/' | relative_url }}#abstract">Abstract</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ '/' | relative_url }}#introduction">Introduction</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ '/' | relative_url }}#related-work">Related Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/Klair-work/LAA">GitHub</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://klair.work">Klair.work</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="site-content">
+    <div class="container">
+      <header class="mainheading laa-mainheading">
+        <h1 class="sitetitle">{{ page.title }}</h1>
+        <p class="lead">{{ site.description }}</p>
+      </header>
+
+      <main class="main-content">
+        {{ content }}
+      </main>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-sm-6 text-center text-lg-left">
+            Copyright &copy; {{ site.time | date: "%Y" }} Klair
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</body>
+</html>

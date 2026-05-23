@@ -1,0 +1,5 @@
+.bundle/
+.jekyll-cache/
+private/
+vendor/bundle/
+_site/

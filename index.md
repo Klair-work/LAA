@@ -1,3 +1,19 @@
+---
+layout: page
+title: Layered Agent Architecture
+---
+
+<div class="laa-authors" aria-label="Authors">
+  <div class="laa-author">
+    <img src="https://avatars.githubusercontent.com/u/279490528?v=4" alt="Emmanuel Beauvais">
+    <span>Emmanuel Beauvais</span>
+  </div>
+  <div class="laa-author">
+    <img src="https://avatars.githubusercontent.com/u/17178838?v=4" alt="Gaëtan Le Gac">
+    <span>Gaëtan Le Gac</span>
+  </div>
+</div>
+
 ## Abstract
 
 Most AI agent architectures today are monolithic - identity, logic, memory, tools and behaviors all conflated in a single prompt. This works at small scale but becomes fragile as systems grow: prompts become unmaintainable, third-party extensions break invariants, and behavioral changes cascade unpredictably.
