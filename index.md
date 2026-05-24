@@ -365,6 +365,127 @@ See Section 7 - *Level 0 Worker Contract* for the full specification and adoptio
 
 ---
 
+## 3c. Economic Governance Layer
+
+*Inserted after Section 3b — The Level 0 Worker Contract*
+
+The Decision Arbitration primitives in Layer 3 include `resource_pressure` as one of five governance dimensions. This section formalizes `resource_pressure` into a complete economic governance model — the mechanism by which a governed agent system allocates autonomous action, attention, and trust according to the user's financial constraints and risk appetite.
+
+### Three levels of governance clarity
+
+Economic governance operates at three levels of clarity. Precision decreases going down — and this is by design, not a limitation.
+
+> *Macro (objective, indisputable) → Operational (partially measurable) → Micro (often fuzzy)*
+
+The orchestrator never blocks action on fuzzy benefits alone. When budget exposure is high and the benefit is unclear, it asks a single clarifying question. Once answered, the answer is stored and never asked again.
+
+### Pipeline types and user extensibility
+
+Pipelines are typed according to their economic nature. The governance worker adapts its evaluation method accordingly:
+
+- `direct_roi` — measurable, directly attributable benefit. Standard ROI calculation.
+- `investment` — deferred benefit with a defined horizon. Evaluation suspended until the horizon date.
+- `infrastructure` — necessary cost, no ROI expected. Never counted as a deficit.
+- `uncertain` — non-quantifiable or highly variable value. Proxy evaluation with explicit uncertainty signal.
+
+Pipeline types are **user-extensible**. The orchestrator proposes a new type when it detects a pipeline that fits none of the defaults. The user validates — the type is stored and applied to all future pipelines of the same nature. The governance worker never forces a ROI estimate on infrastructure or qualitative pipelines.
+
+### The pipeline as the unit of governance
+
+Naïve agent governance evaluates actions in isolation: is this action within budget? is the risk acceptable? This approach creates two failure modes simultaneously. It blocks useful actions that are locally expensive but systemically profitable. And it approves sequences of cheap actions that collectively drain resources without value.
+
+LAA replaces action-level evaluation with **pipeline governance**. A pipeline is a chain of actions unified by a single macro-objective. The unit of economic governance is the pipeline, not the action.
+
+```jsx
+Pipeline: A → B → C → D
+
+A: negative local ROI (data enrichment cost)
+B: neutral
+C: high resource consumption
+D: high value generated
+
+Pipeline ROI: positive → all actions approved
+The orchestrator never blocks A, B, or C in isolation.
+```
+
+A locally deficient action inside a globally profitable pipeline is always approved. `riskTolerance` applies only to pipelines with `confidence: speculative` or `low` — not to stable, validated pipelines.
+
+### Three sources of pipeline definition
+
+Pipelines are not always declared explicitly. LAA recognizes three origins:
+
+**1. Explicit user declaration** — the user describes an objective or lists steps. The orchestrator creates the pipeline from this declaration and links subsequent actions to the `pipelineId`.
+
+**2. Worker or template activation** — multi-step workers (campaign, recruitment process, formation delivery) declare the opening of a pipeline and its expected steps at activation.
+
+**3. Orchestrator deduction** — the orchestrator observes related actions (same context, same target, same period) and proposes a reformulation to the user: *"I see you're doing A, B, C — should we call this pipeline X?"* Validation formalizes the pipeline retrospectively.
+
+### The attention matrix
+
+For pipelines that are not globally profitable, the orchestrator applies a triage based on the ratio of financial impact to total budget consumption — not on absolute cost.
+
+| Profitability | Budget exposure | Classification | Orchestrator signal |
+| --- | --- | --- | --- |
+| Negative | High (e.g. 30%) | **Critical hemorrhage** | P1 — immediate alert with options |
+| Negative | Low (e.g. 0.1%) | **Background noise** | P3 — silent log, passive optimization |
+| Neutral / stable | High (e.g. 30%) | **Drift risk** | P2 — active monitoring |
+
+This matrix is computed by a dedicated governance worker — not by the orchestrator itself. The orchestrator arbitrates; the governance worker calculates. This is the same separation that exists between a CEO and a CFO.
+
+### The CEO/shareholder model
+
+The economic governance model maps directly to an organizational structure that every professional already understands:
+
+```jsx
+Governance worker          →  CFO / analytics department
+  Collects data
+  Computes pipeline ROI
+  Applies attention matrix
+  Produces structured signal
+
+Orchestrator               →  CEO
+  Never computes — arbitrates
+  Receives structured signals
+  Allocates attention
+  Presents options to the user
+
+User                       →  Shareholder / board
+  Never sees raw data
+  Always sees: situation + options + costs + recommendation
+  Decides
+```
+
+**The orchestrator never presents a problem alone.** This is a LAA invariant derived from the CEO model:
+
+```
+Never: "there is a problem"
+Always: situation + options (A/B/C) + estimated cost + expected impact + recommendation
+```
+
+The user's cognitive load is protected. The complexity is absorbed by the governance layer.
+
+### Risk tolerance as a delegation cursor
+
+The user's `riskTolerance` parameter governs how the orchestrator handles pipelines with low confidence:
+
+- **Conservative (≤30%)** — costly actions approved only if pipeline ROI is confirmed (`confidence ≥ medium`, `basedOn ≥ 3`)
+- **Balanced (50%)** — costly actions approved if estimated ROI is high, even with low confidence
+- **Audacious (≥70%)** — high-cost strategy tests approved as long as estimated impact is significant, even speculative
+
+`riskTolerance` does not apply to validated pipelines. It governs exploration — the margin the user gives the orchestrator to test.
+
+### Adaptive audit cadence
+
+The governance worker does not run continuously. The orchestrator regulates its frequency according to pipeline maturity:
+
+- **New / in test** (`confidence: speculative` or `low`) → close monitoring, every 2-3 days
+- **Stabilized** (`confidence: high`, 5+ homogeneous results) → distant monitoring, every 2-3 weeks
+- **Exceptional trigger** → immediate if budget threshold breached or strongly negative ROI on a profitable pipeline
+
+The governance worker can also surface a strong anomaly autonomously — without waiting for the next orchestrator trigger. It does not loop continuously.
+
+---
+
 ## 4. Memory Contract
 
 ### The Detection Problem
@@ -756,6 +877,8 @@ Katia adapts to three user profiles via `depthLevel`: PME (light), large company
 | Cybernetic feedback loops (2 loops) | ✅ | Not formalized |
 | Human collaboration model | ✅ | Not addressed |
 | Module Registry as third-party extension | ✅ | Not formalized |
+| Economic Governance Layer (Section 3c) | ✅ | Not formalized |
+| Klair as Personal Layer — SaaS synergy (Section 7b) | ✅ | Not formalized |
 | Conformance gradient - heterogeneous ecosystems | ✅ | Not formalized |
 
 ---
@@ -850,6 +973,104 @@ Result: self-calibrating system, maximum individualisation
 ```
 No store required. No shared infrastructure required. The conformance gradient is the adoption path - each step delivers immediate value without requiring the previous step to be complete.
 The freelance consultant from Section 6 illustrates this: their marketing worker may be a native LAA worker, their accounting tool a simple API integration, their CRM a third-party agent on another platform. The orchestrator coordinates all three. The Memory Contract accumulates across all of them. The system learns - at the level of resolution each component allows.
+
+---
+
+## 7b. Klair as Personal Layer — SaaS Synergy Model
+
+*Inserted after Section 7 — Portability, before Section 8 — Conclusion*
+
+Section 7 describes LAA portability as the ability of a single orchestrator to coordinate heterogeneous agents across platforms. This section describes a specific application of that principle: **Klair as a persistent personal layer that any SaaS can connect to — and benefit from immediately.**
+
+### The UX problem every SaaS AI faces
+
+Every SaaS product that integrates an AI layer today faces the same structural problem: the AI does not know the user.
+
+It does not know their communication style, their rules, their ongoing objectives, their relationship history with their contacts, their preferred channels, or their risk appetite. Every session starts from zero. Every new tool requires reconfiguration. The user re-explains themselves — to every AI, in every tool, every time.
+
+This is not a failure of the AI's capability. It is a failure of **personal context portability**.
+
+### The Klair connector model
+
+Klair solves this not by replacing the SaaS AI, but by becoming the personal layer it connects to.
+
+The integration model is bidirectional and symmetric:
+
+**From Klair → SaaS**
+The orchestrator interrogates the SaaS via its published MCP connector. The user works from Klair; the orchestrator reads deals, tasks, candidates, or any other data from any tool with a certified connector. The orchestrator has a unified view across all tools.
+
+**From SaaS → Klair**
+The SaaS AI invokes the orchestrator to access the PersonalisationFile, StyleLibrary, Memory Contract, and governance parameters. It stops being generic — without rebuilding the personalization layer itself.
+
+```jsx
+SaaS AI before personal layer connector:
+  → starts from zero every session
+  → re-asks for preferences
+  → ignores relationship history
+  → no governance on autonomous actions
+
+SaaS AI after personal layer connector:
+  → loads PersonalisationFile at session start
+  → knows tone, language, rules, ongoing objectives
+  → accesses relationship context via Memory Contract
+  → governed by riskTolerance and resourceBudget
+```
+
+### Instant parametrization — the core UX argument
+
+The value proposition for the SaaS partner is immediate and demonstrable:
+
+> **A user who has Klair is operational from the first session. Zero onboarding friction.**
+
+The SaaS does not need to build onboarding flows, preference capture, or personalization engines. Klair already has it. The connector surfaces it.
+
+For the user, the value is symmetric:
+
+> **My AI already knows me — wherever I work.**
+
+This is not a marginal improvement. It is a step-change in how personal AI works. The PersonalisationFile becomes a portable asset the user owns and carries across every tool in their ecosystem.
+
+### What each party contributes
+
+| | Klair brings | SaaS brings |
+| --- | --- | --- |
+| To the user | Personal context, memory, governance | Domain tools, data, execution surface |
+| To each other | PersonalisationFile, StyleLibrary, Memory Contract | Live business data, action endpoints, domain signals |
+| To the ecosystem | Portable personal layer standard | Certified connector, distribution reach |
+
+### The connector as a mutual asset
+
+A certified Klair connector is not a one-way integration. It is a mutual distribution asset:
+
+- **For the SaaS** — visibility in the Klair ecosystem and store. Users who discover the connector from Klair become SaaS users.
+- **For Klair** — each connector extends the reach of the personal layer into a new domain. More connectors → more of the user's professional life is governed by a single coherent memory.
+
+The minimum viable connector is three MCP endpoints — read personal context, write interaction signal, declare pipeline. It can be implemented in a day. Complexity grows with the depth of the integration, not with the entry cost.
+
+### Relation to the conformance gradient
+
+The connector model is the conformance gradient applied to SaaS partnerships:
+
+```jsx
+Level 0 — 3 endpoints
+  SaaS AI reads PersonalisationFile at session start
+  → immediate UX improvement, zero architecture change
+
+Level 1 — full MCP connector
+  Axel interrogates SaaS data bidirectionally
+  → unified orchestration across tools
+
+Level 2 — deep integration
+  SaaS events feed Memory Contract signals
+  Pipeline governance spans Klair + SaaS actions
+  → self-calibrating system across the full user workflow
+```
+
+Each level delivers immediate value. No level requires the previous to be complete.
+
+> **The orchestrator governs. Workers execute. SaaS tools are workers.**
+> The personal layer persists. Wherever the user works.
+
 ---
 ## 8. Conclusion
 LAA proposes a separation that clarifies what is currently implicit in most agent architectures:
